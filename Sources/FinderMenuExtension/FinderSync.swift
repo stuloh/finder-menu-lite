@@ -68,6 +68,10 @@ class FinderMenuSync: FIFinderSync {
         let grouped = NSMenu(title: "")
         let more = grouped.addItem(withTitle: NSLocalizedString("More Actions", comment: ""), action: nil, keyEquivalent: "")
         more.image = Self.symbol("ellipsis.circle")
+        // Last in the submenu, and not hideable: it's the way back to these choices.
+        menu.addItem(.separator())
+        menu.addItem(withTitle: NSLocalizedString("Settings…", comment: ""), action: #selector(openSettings(_:)), keyEquivalent: "")
+            .image = Self.symbol("gearshape")
         more.submenu = menu
         return grouped
     }
@@ -159,7 +163,7 @@ class FinderMenuSync: FIFinderSync {
                 .image = icon
         }
         sub.addItem(.separator())
-        sub.addItem(withTitle: NSLocalizedString("Manage Templates…", comment: ""), action: #selector(FinderMenuSync.manageTemplates(_:)), keyEquivalent: "")
+        sub.addItem(withTitle: NSLocalizedString("Manage Templates…", comment: ""), action: #selector(FinderMenuSync.openSettings(_:)), keyEquivalent: "")
             .image = symbol("gearshape")
         return sub
     }
@@ -199,8 +203,8 @@ class FinderMenuSync: FIFinderSync {
         callHelper("newfile", dir.path, template: template.id)
     }
 
-    // The extension can only read settings, so the helper's settings window removes templates.
-    @objc func manageTemplates(_ sender: AnyObject?) {
+    // Settings… and Manage Templates…: the extension can only read settings, so the helper's window changes them.
+    @objc func openSettings(_ sender: AnyObject?) {
         callHelper("settings")
     }
 

@@ -52,7 +52,7 @@
 
 ## What's in the menu
 
-Right-click **empty space** in any folder, with nothing selected. The items sit under one **More&nbsp;Actions&nbsp;▸** item, to keep Finder's menu short; untick **Group items under More Actions** in [settings](#settings) to show them side by side instead.
+Right-click **empty space** in any folder, with nothing selected. The items sit under one **More&nbsp;Actions&nbsp;▸** item, to keep Finder's menu short, with **Settings…** at the bottom; untick **Group items under More Actions** in [settings](#settings) to show them side by side instead.
 
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | Menu item | What it does |
 |:-:|---|---|
@@ -121,7 +121,7 @@ From source, run `git pull && ./install.sh` in the repo folder.
 
 ## Settings
 
-Open **Finder Menu** from Spotlight or your Applications folder, or run `finder-menu settings`. The settings window lets you:
+Choose **More Actions ▸ Settings…** in the right-click menu, open **Finder Menu** from Spotlight or your Applications folder, or run `finder-menu settings`. The settings window lets you:
 
 - choose which items appear in the right-click menu (**Copy Name** is off until you turn it on)
 - choose whether the items sit under one **More Actions** item (they do by default) or side by side in Finder's menu
