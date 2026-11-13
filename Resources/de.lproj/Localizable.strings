@@ -4,6 +4,7 @@
 "Open Folder With" = "Ordner öffnen mit";
 "Copy Path" = "Pfad kopieren";
 "Copy Name" = "Namen kopieren";
+"Convert to PDF" = "In PDF umwandeln";
 "Go to Parent Folder" = "Übergeordneter Ordner";
 "Other App…" = "Andere App…";
 
@@ -13,6 +14,7 @@
 "⚠️ That isn't a valid file name." = "⚠️ Das ist kein gültiger Dateiname.";
 "⚠️ \"%@\" already exists." = "⚠️ „%@“ existiert bereits.";
 "⚠️ Couldn't create the file here (no permission?)." = "⚠️ Datei konnte hier nicht erstellt werden (keine Berechtigung?).";
+"Couldn't convert “%@” to PDF." = "„%@“ konnte nicht in PDF umgewandelt werden.";
 "Create" = "Erstellen";
 "Cancel" = "Abbrechen";
 "Save as template" = "Als Vorlage speichern";

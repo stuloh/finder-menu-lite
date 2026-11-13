@@ -63,6 +63,8 @@ Right-click **empty space** in any folder, with nothing selected:
 | <picture><source media="(prefers-color-scheme: dark)" srcset="docs/icons/copy-name-dark.png"><img src="docs/icons/copy-name.png" width="20" height="20" alt=""></picture> | **Copy&nbsp;Name** | Copies the current folder's name, like `my-project`. Off until you turn it on in [settings](#settings). |
 | <picture><source media="(prefers-color-scheme: dark)" srcset="docs/icons/parent-folder-dark.png"><img src="docs/icons/parent-folder.png" width="20" height="20" alt=""></picture> | **Go&nbsp;to&nbsp;Parent&nbsp;Folder** | Moves the window up one level, even when Finder's Back button is greyed out (e.g. a window opened with `open .`). |
 
+| | **Convert&nbsp;to&nbsp;PDF** | Right-click one or more Word documents (`.docx`, `.doc`) to save a PDF next to each, like `report.pdf`. Microsoft Word does the converting, so it needs Word installed. Never overwrites: if the name is taken, you get `report 2.pdf`. |
+
 Right-clicking a file or folder works too: **Copy Path** and **Copy Name** copy the selected items' paths or names (file names with their extensions), and **Open Terminal Here** and **Open Folder With** use the selected folder.
 
 The menu also appears on external drives, disk images and network shares (such as SMB), not just your Mac's own disk.
@@ -103,7 +105,7 @@ cd finder-menu
 Either way, the app is built on your machine, installed to `~/Applications/Finder Menu.app` and the Finder extension is turned on. There's nothing to launch: Finder loads the extension by itself, including after a restart.
 
 > [!NOTE]
-> The first time you use **Go to Parent Folder**, macOS asks whether Finder Menu can control Finder. Click **OK**, because that's how it moves the window.
+> The first time you use **Go to Parent Folder**, macOS asks whether Finder Menu can control Finder. Click **OK**, because that's how it moves the window. **Convert to PDF** asks the same about Microsoft Word.
 
 ### Update
 
@@ -180,6 +182,7 @@ From source:
 
 - **Menu items don't appear:** hold ⌥, right-click Finder in the Dock and choose **Relaunch**. Also check that **Finder Menu** is turned on under System Settings → General → Login Items & Extensions → Finder extensions.
 - **Menu items don't appear in OneDrive, Dropbox, Google Drive or iCloud Drive folders:** a macOS limitation. These apps sync through Apple's File Provider, and Finder doesn't show other apps' Finder extension menus in their folders, so other right-click menu apps are missing there too. [#29](https://github.com/nikgrbn/finder-menu/issues/29) has the details, and ideas for a way around it are welcome there.
+- **Word asks to Grant File Access when converting to PDF:** Word is sandboxed, so it asks before saving into a folder for the first time, and remembers each folder you grant. Choose your home folder in that dialog and it won't ask again for anything inside it.
 - **Asked for permission again after reinstalling:** expected. Every build is signed locally with a new signature, so macOS asks again.
 - **A drive shows the Finder Menu icon in Finder's sidebar:** expected. Finder gives every drive a Finder extension works on that app's icon, except the startup disk, so the menu can't appear on a drive without it. It's only the icon. If it bothers you, untick **Also on external and network drives** in [settings](#settings), which also takes the menu off those drives. [#14](https://github.com/nikgrbn/finder-menu/issues/14) has the details, and ideas for a way around it are welcome there.
 
@@ -203,9 +206,9 @@ You build Finder Menu yourself from this source, so there's no downloaded app to
 - **No network access.** There's no networking code, so nothing is sent anywhere: no telemetry, no analytics, no update checks.
 - **Small enough to read.** About 900 lines of Swift and 185 lines of shell scripts (`install.sh`, `uninstall.sh` and `scripts/`). Read them before you run them.
 - **Sandboxed Finder extension.** It can't read your files. It only gets the folder you right-click, the items you select, the list of mounted drives and which app owns the window under the pointer (to tell Finder from an Open or Save dialog; never a window's title or contents), plus read-only access to Finder Menu's own settings (which items to show, where, and with or without icons, plus any New File templates).
-- **The helper only acts when you pick a menu item.** It creates an empty file with the name you type or a template name you saved (never overwriting anything), opens a terminal or an app in a folder, or moves the Finder window up a level.
+- **The helper only acts when you pick a menu item.** It creates an empty file with the name you type or a template name you saved (never overwriting anything), opens a terminal or an app in a folder, moves the Finder window up a level, or has Word save the Word documents you selected as PDFs next to them (never overwriting anything).
 - **Links from other apps are ignored.** The extension sends actions to the helper as `findermenu://` links. Other apps can send those links too, and so can a website after your browser asks you. Opening a folder they choose in a terminal or IDE could run code from it, so the helper checks the code signature of whatever sent each link and ignores any that didn't come from its own Finder extension. On top of that, it only acts on folders that exist, only opens apps from its built-in IDE list (or one you pick yourself), asks before a custom New File, and for templates only uses a file name you already saved (never taken from the URL).
-- **One permission.** Go to Parent Folder asks once to control Finder. Finder Menu doesn't ask for Full Disk Access, Accessibility or anything else.
+- **Two permissions.** Go to Parent Folder asks once to control Finder, and Convert to PDF asks once to control Microsoft Word. Finder Menu doesn't ask for Full Disk Access, Accessibility or anything else.
 - **Signed locally, not notarized.** `install.sh` signs the build on your Mac ("Sign to Run Locally"). It isn't notarized by Apple, because there's no download for Apple to check.
 
 Found a security problem? Please report it privately, as described in [SECURITY.md](SECURITY.md).

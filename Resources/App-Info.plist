@@ -50,6 +50,6 @@
 	<key>LSUIElement</key>
 	<true/>
 	<key>NSAppleEventsUsageDescription</key>
-	<string>Finder Menu needs to control Finder to move the window to the parent folder.</string>
+	<string>Finder Menu needs to control Finder to move the window to the parent folder, and Microsoft Word to save documents as PDF.</string>
 </dict>
 </plist>

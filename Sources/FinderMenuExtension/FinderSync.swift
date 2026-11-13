@@ -49,6 +49,11 @@ class FinderMenuSync: FIFinderSync {
             case "open-with": entry.submenu = Self.openWithMenu()
             case "copy-path": entry.action = #selector(copyPath(_:))
             case "copy-name": entry.action = #selector(copyName(_:))
+            case "to-pdf":
+                // Only for selected Word documents, never for the folder you're in.
+                let files = selection
+                guard menuKind == .contextualMenuForItems, !files.isEmpty, files.allSatisfy(isWordDocument) else { continue }
+                entry.action = #selector(convertToPDF(_:))
             case "parent-folder":
                 guard let dir = currentFolder, !isDriveRoot(dir) else { continue }
                 entry.action = #selector(goUp(_:))
@@ -209,6 +214,13 @@ class FinderMenuSync: FIFinderSync {
         }
     }
 
+    // Word does the converting, so the helper (outside the sandbox) drives it.
+    @objc func convertToPDF(_ sender: AnyObject?) {
+        let files = selection.filter(isWordDocument)
+        guard !files.isEmpty else { return }
+        callHelper("topdf", paths: files.map(\.path))
+    }
+
     // One line per selected item, or the folder you're in when nothing is selected.
     private func copyToPasteboard(_ text: (URL) -> String) {
         let urls = selection.isEmpty ? [currentFolder].compactMap { $0 } : selection
@@ -218,11 +230,13 @@ class FinderMenuSync: FIFinderSync {
     }
 
     // The extension is sandboxed, so file creation and app launching happen in the helper app.
-    private func callHelper(_ action: String, _ path: String? = nil, app: String? = nil, template: String? = nil) {
+    // Several files (Convert to PDF) travel as repeated path= items.
+    private func callHelper(_ action: String, _ path: String? = nil, paths: [String] = [], app: String? = nil, template: String? = nil) {
         var c = URLComponents()
         c.scheme = "findermenu"
         c.host = action
-        let items = [("path", path), ("app", app), ("template", template)]
+        let items = ([path].compactMap { $0 } + paths).map { URLQueryItem(name: "path", value: $0) }
+            + [("app", app), ("template", template)]
             .compactMap { name, value in value.map { URLQueryItem(name: name, value: $0) } }
         if !items.isEmpty { c.queryItems = items }
         if let url = c.url { NSWorkspace.shared.open(url) }

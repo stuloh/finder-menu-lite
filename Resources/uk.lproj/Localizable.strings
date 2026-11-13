@@ -4,6 +4,7 @@
 "Open Folder With" = "Відкрити папку в програмі";
 "Copy Path" = "Скопіювати шлях";
 "Copy Name" = "Скопіювати назву";
+"Convert to PDF" = "Перетворити на PDF";
 "Go to Parent Folder" = "Перейти до батьківської папки";
 "Other App…" = "Інша програма…";
 
@@ -13,6 +14,7 @@
 "⚠️ That isn't a valid file name." = "⚠️ Неприпустима назва файлу.";
 "⚠️ \"%@\" already exists." = "⚠️ «%@» уже існує.";
 "⚠️ Couldn't create the file here (no permission?)." = "⚠️ Не вдалося створити тут файл (немає прав доступу?).";
+"Couldn't convert “%@” to PDF." = "Не вдалося перетворити «%@» на PDF.";
 "Create" = "Створити";
 "Cancel" = "Скасувати";
 "Save as template" = "Зберегти як шаблон";

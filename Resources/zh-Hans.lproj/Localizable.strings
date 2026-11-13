@@ -4,6 +4,7 @@
 "Open Folder With" = "用以下应用打开";
 "Copy Path" = "拷贝路径";
 "Copy Name" = "拷贝名称";
+"Convert to PDF" = "转换为 PDF";
 "Go to Parent Folder" = "前往上层文件夹";
 "Other App…" = "其他应用…";
 
@@ -13,6 +14,7 @@
 "⚠️ That isn't a valid file name." = "⚠️ 这不是有效的文件名。";
 "⚠️ \"%@\" already exists." = "⚠️ “%@”已存在。";
 "⚠️ Couldn't create the file here (no permission?)." = "⚠️ 无法在此处创建文件（可能没有权限）。";
+"Couldn't convert “%@” to PDF." = "无法将“%@”转换为 PDF。";
 "Create" = "创建";
 "Cancel" = "取消";
 "Save as template" = "存为模板";

@@ -14,6 +14,7 @@ let menuItems: [(id: String, title: String, symbol: String)] = [
     ("open-with", "Open Folder With", "arrow.up.forward.app"),
     ("copy-path", "Copy Path", "doc.on.doc"),
     ("copy-name", "Copy Name", "character.cursor.ibeam"),
+    ("to-pdf", "Convert to PDF", "doc.richtext"),
     ("parent-folder", "Go to Parent Folder", "arrow.turn.left.up"),
 ]
 

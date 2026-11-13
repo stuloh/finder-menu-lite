@@ -4,6 +4,7 @@
 "Open Folder With" = "باز کردن پوشه با";
 "Copy Path" = "کپی مسیر";
 "Copy Name" = "کپی نام";
+"Convert to PDF" = "تبدیل به PDF";
 "Go to Parent Folder" = "رفتن به پوشه والد";
 "Other App…" = "برنامه دیگر…";
 
@@ -13,6 +14,7 @@
 "⚠️ That isn't a valid file name." = "⚠️ این نام فایل معتبر نیست.";
 "⚠️ \"%@\" already exists." = "⚠️ \U2068\"%@\"\U2069 از قبل وجود دارد.";
 "⚠️ Couldn't create the file here (no permission?)." = "⚠️ امکان ایجاد فایل در اینجا وجود نداشت (بدون مجوز؟).";
+"Couldn't convert “%@” to PDF." = "تبدیل «%@» به PDF ممکن نشد.";
 "Create" = "ایجاد";
 "Cancel" = "لغو";
 "Save as template" = "ذخیره به‌عنوان الگو";

@@ -20,6 +20,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             guard let c = URLComponents(url: url, resolvingAgainstBaseURL: false) else { continue }
             // Manage Templates… doesn't act on a folder.
             if c.host == "settings" { showSettings(); continue }
+            // Convert to PDF acts on files, not on a folder.
+            if c.host == "topdf" {
+                convertToPDF(c.queryItems?.filter { $0.name == "path" }.compactMap(\.value).compactMap(wordDocument(for:)) ?? [])
+                continue
+            }
             guard let path = c.queryItems?.first(where: { $0.name == "path" })?.value,
                   let dir = folder(for: path) else { continue }
             switch c.host {
@@ -163,6 +168,34 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         var error: NSDictionary?
         NSAppleScript(source: script)?.executeAndReturnError(&error)
         if let error { NSLog("Finder Menu go-up failed: \(error)") }
+    }
+
+    // Word saves each document as a PDF next to it. Then Finder selects the new PDFs, and any that
+    // failed are listed in one alert.
+    private func convertToPDF(_ documents: [String]) {
+        var created: [URL] = []
+        var failed: [(name: String, reason: String)] = []
+        for document in documents {
+            let destination = pdfPath(for: document)
+            var error: NSDictionary?
+            NSAppleScript(source: wordToPDFScript(source: document, destination: destination))?.executeAndReturnError(&error)
+            if error == nil, FileManager.default.fileExists(atPath: destination) {
+                created.append(URL(fileURLWithPath: destination))
+            } else {
+                NSLog("Finder Menu convert to PDF failed: \(String(describing: error))")
+                failed.append(((document as NSString).lastPathComponent,
+                               error?[NSAppleScript.errorMessage] as? String ?? ""))
+            }
+        }
+        if !created.isEmpty { NSWorkspace.shared.activateFileViewerSelecting(created) }
+        guard !failed.isEmpty else { return }
+        let alert = NSAlert()
+        alert.alertStyle = .warning
+        let format = NSLocalizedString("Couldn't convert “%@” to PDF.", comment: "")
+        alert.messageText = failed.map { String(format: format, $0.name) }.joined(separator: "\n")
+        alert.informativeText = failed.map(\.reason).first { !$0.isEmpty } ?? ""
+        RunLoop.main.perform(inModes: [.modalPanel]) { NSApp.activate(ignoringOtherApps: true) }
+        alert.runModal()
     }
 
     // Uses the terminal picked in settings (or with `finder-menu terminal <app>`), otherwise the first installed one.

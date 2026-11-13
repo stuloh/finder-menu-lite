@@ -39,6 +39,7 @@ let tests: [(name: String, run: () throws -> Void)] = [
     ("folders from links", testFolderForLink),
     ("AppleScript strings", testAppleScriptString),
     ("terminal launch", testTerminalLaunch),
+    ("Word documents", testWordDocuments),
     ("translations", testTranslations),
 ]
 
