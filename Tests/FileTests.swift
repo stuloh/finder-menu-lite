@@ -10,6 +10,18 @@ func testValidFilenames() {
     }
 }
 
+func testDesktopFiles() throws {
+    let desktop = try makeTempFolder()
+    try FileManager.default.createDirectory(atPath: desktop + "/sub", withIntermediateDirectories: false)
+    let other = try makeTempFolder()
+    check(isOnDesktop(desktop + "/photo.jpg", desktop: desktop), "a file on the Desktop")
+    check(isOnDesktop(desktop + "/sub/../photo.jpg", desktop: desktop), "a Desktop file reached through ..")
+    check(!isOnDesktop(desktop + "/sub/photo.jpg", desktop: desktop), "a file in a folder on the Desktop")
+    check(!isOnDesktop(other + "/photo.jpg", desktop: desktop), "a file elsewhere")
+    // NSTemporaryDirectory sits behind the /var → /private/var symlink, so this also checks resolving.
+    check(isOnDesktop(((desktop as NSString).resolvingSymlinksInPath) + "/photo.jpg", desktop: desktop), "the Desktop's real path")
+}
+
 func testUnusedFilename() throws {
     let dir = try makeTempFolder()
     func touch(_ name: String) {

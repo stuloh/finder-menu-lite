@@ -69,7 +69,7 @@ Right-click in any folder and open **More&nbsp;Actions&nbsp;▸**. Keeping every
 | <picture><source media="(prefers-color-scheme: dark)" srcset="docs/icons/resize-dark.png"><img src="docs/icons/resize.png" width="20" height="20" alt=""></picture> | **Resize&nbsp;to&nbsp;1600** | Right-click images (JPEG too) to save a copy whose longest side is 1600 pixels, like `photo 1600px.png`, in the same format. Images already that small are skipped. |
 | <picture><source media="(prefers-color-scheme: dark)" srcset="docs/icons/parent-folder-dark.png"><img src="docs/icons/parent-folder.png" width="20" height="20" alt=""></picture> | **Go&nbsp;to&nbsp;Parent&nbsp;Folder** | Moves the window up one level, even when Finder's Back button is greyed out (e.g. a window opened with `open .`). |
 
-The three conversions only appear when every selected file is one they handle. They always make a new file next to the original, never change or overwrite anything, and use the next free name if one is taken (`photo 2.jpg`). Finder selects the new files when they're done.
+The three conversions only appear when every selected file is one they handle. They always make a new file next to the original, never change or overwrite anything, and use the next free name if one is taken (`photo 2.jpg`). Finder selects the new files when they're done, except on the Desktop, where they're already in view.
 
 Right-clicking a file or folder works too: **Copy Path** and **Copy Name** copy the selected items' paths or names (file names with their extensions), and **Open Terminal Here** and **Open Folder With** use the selected folder.
 

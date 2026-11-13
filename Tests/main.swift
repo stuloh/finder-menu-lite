@@ -36,6 +36,7 @@ func makeTempFolder() throws -> String {
 let tests: [(name: String, run: () throws -> Void)] = [
     ("file names", testValidFilenames),
     ("unused file names", testUnusedFilename),
+    ("Desktop files", testDesktopFiles),
     ("folders from links", testFolderForLink),
     ("AppleScript strings", testAppleScriptString),
     ("terminal launch", testTerminalLaunch),
