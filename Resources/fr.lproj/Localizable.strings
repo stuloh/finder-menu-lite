@@ -47,6 +47,7 @@
 /* Settings Window */
 "Finder Menu Settings" = "Réglages de Finder Menu";
 "Version %@" = "Version %@";
+"Based on Finder Menu by %@" = "Basé sur Finder Menu de %@";
 "Show in the right-click menu" = "Afficher dans le menu contextuel";
 "Also on external and network drives" = "Aussi sur les disques externes et réseau";
 "Group items under More Actions" = "Regrouper les éléments sous « Autres actions »";
@@ -54,6 +55,8 @@
 "Open Terminal Here uses" = "Ouvrir le Terminal ici utilise";
 "Automatic (%@)" = "Automatique (%@)";
 "Changes apply the next time you right-click in Finder." = "Les changements s’appliquent au prochain clic droit dans le Finder.";
+"The menu doesn't appear in iCloud Drive, OneDrive, Dropbox or Google Drive folders. macOS doesn't show other apps' Finder menus there." = "Le menu n’apparaît pas dans les dossiers iCloud Drive, OneDrive, Dropbox ou Google Drive. macOS n’y affiche pas les menus Finder des autres apps.";
+"To uninstall, run ./uninstall.sh in the folder you installed from, or turn off Finder Menu in System Settings → General → Login Items & Extensions and delete it from ~/Applications." = "Pour désinstaller, lancez ./uninstall.sh dans le dossier d’installation, ou désactivez Finder Menu dans Réglages Système → Général → Ouverture et extensions, puis supprimez-le de ~/Applications.";
 "Choose the app for Open Terminal Here:" = "Choisissez l’app pour Ouvrir le Terminal ici :";
 "Choose" = "Choisir";
 "JPEG quality" = "Qualité JPEG";

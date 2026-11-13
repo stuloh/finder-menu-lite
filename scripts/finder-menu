@@ -1,5 +1,5 @@
 #!/bin/bash
-# finder-menu enable [app]   Copies Finder Menu.app into ~/Applications and turns on its Finder extension.
+# scripts/finder-menu enable [app]   Copies Finder Menu.app into ~/Applications and turns on its Finder extension.
 #                            Without [app], uses the copy Homebrew built next to this script.
 # finder-menu disable        Turns the extension off and removes the app from ~/Applications.
 # finder-menu terminal [app] Shows or sets the terminal for Open Terminal Here ("auto" to reset).
@@ -34,12 +34,12 @@ enable() {
     if pluginkit -m -i "$EXT_ID" | grep -q "^+.*$EXT_ID"; then
       restart_extension
       echo "Finder Menu is on. Right-click inside any Finder folder."
-      echo "To choose which items appear and which terminal opens: finder-menu settings"
+      echo "To choose which items appear and which terminal opens: scripts/finder-menu settings (or More Actions ▸ Settings… in Finder)"
       return
     fi
   done
   echo "Installed, but macOS didn't enable the Finder extension. Turn on \"Finder Menu\" in" >&2
-  echo "System Settings → General → Login Items & Extensions, or run: finder-menu enable" >&2
+  echo "System Settings → General → Login Items & Extensions, or run: scripts/finder-menu enable" >&2
   exit 1
 }
 
@@ -88,7 +88,7 @@ terminal() {
         echo "Open Terminal Here picks automatically: the first installed of iTerm2, Ghostty, Warp,"
         echo "WezTerm, kitty and Alacritty, otherwise Terminal."
       fi
-      echo "Change it with: finder-menu terminal <app name>, or go back with: finder-menu terminal auto"
+      echo "Change it with: scripts/finder-menu terminal <app name>, or go back with: scripts/finder-menu terminal auto"
       ;;
     auto)
       defaults delete local.findermenu Terminal 2>/dev/null || true
@@ -112,9 +112,9 @@ case "${1:-}" in
   terminal) shift; terminal "$@" ;;
   settings)
     if [ ! -d "$INSTALLED" ]; then
-      echo "Finder Menu isn't installed in $DEST. Run: finder-menu enable" >&2
+      echo "Finder Menu isn't installed in $DEST. Run: ./install.sh" >&2
       exit 1
     fi
     open "$INSTALLED" ;;
-  *) echo "usage: finder-menu enable | disable | terminal [app] | settings" >&2; exit 1 ;;
+  *) echo "usage: scripts/finder-menu enable | disable | terminal [app] | settings" >&2; exit 1 ;;
 esac

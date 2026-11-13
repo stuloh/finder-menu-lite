@@ -89,3 +89,20 @@ func wordToPDFScript(source: String, destination: String) -> String {
     end tell
     """
 }
+
+// The user's Desktop folder, real path.
+let desktopFolder = FileManager.default.urls(for: .desktopDirectory, in: .userDomainMask).first?.path ?? NSHomeDirectory() + "/Desktop"
+
+// Whether a file sits directly on the Desktop. Symlinks and ".." are resolved on both sides.
+func isOnDesktop(_ path: String, desktop: String = desktopFolder) -> Bool {
+    let real = { (p: String) in ((p as NSString).standardizingPath as NSString).resolvingSymlinksInPath }
+    return real((path as NSString).deletingLastPathComponent) == real(desktop)
+}
+
+// Selects new files in Finder. Files on the Desktop are left alone: they're already in view, and no
+// window shows the Desktop folder, so Finder would open a new one just to select them.
+func revealInFinder(_ paths: [String]) {
+    let shown = paths.filter { !isOnDesktop($0) }
+    guard !shown.isEmpty else { return }
+    NSWorkspace.shared.activateFileViewerSelecting(shown.map { URL(fileURLWithPath: $0) })
+}

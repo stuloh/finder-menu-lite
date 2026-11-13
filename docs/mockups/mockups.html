@@ -201,22 +201,18 @@ const finderItems = [
   { title: 'Sort By', submenu: true, dim: true },
   '-',
 ];
-const ours = (newFile, openWith) => [
-  { title: newFile ? 'New File' : 'New File…', symbol: 'doc.badge.plus', submenu: newFile, state: newFile && 'open' },
-  { title: 'Open Terminal Here', symbol: 'terminal' },
-  { title: 'Open Folder With', symbol: 'arrow.up.forward.app', submenu: true, state: openWith && 'open' },
-  { title: 'Copy Path', symbol: 'doc.on.doc' },
+// Finder Menu's single item in Finder's menu; everything else is in its submenu.
+const moreActions = { title: 'More Actions', symbol: 'ellipsis.circle', submenu: true, state: 'open' };
+// More Actions' submenu with empty space right-clicked (the conversions show only for files they take).
+// `hover` names the highlighted item; newFile opens the New File submenu, as once templates are saved.
+const ours = ({ newFile = false, hover } = {}) => [
+  { title: newFile ? 'New File' : 'New File…', symbol: 'doc.badge.plus', submenu: newFile, state: newFile ? 'open' : hover === 'New File…' && 'hover' },
+  { title: 'Open Terminal Here', symbol: 'terminal', state: hover === 'Open Terminal Here' && 'hover' },
+  { title: 'Open Folder With', symbol: 'arrow.up.forward.app', submenu: true },
+  { title: 'Copy Path', symbol: 'doc.on.doc', state: hover === 'Copy Path' && 'hover' },
   { title: 'Go to Parent Folder', symbol: 'arrow.turn.left.up' },
-];
-const editors = [
-  { title: 'Visual Studio Code', app: 'com.microsoft.VSCode', state: 'hover' },
-  { title: 'Sublime Text', app: 'com.sublimetext.4' },
-  { title: 'IntelliJ IDEA', app: 'com.jetbrains.intellij' },
-  { title: 'PyCharm', app: 'com.jetbrains.pycharm' },
-  { title: 'Android Studio', app: 'com.google.android.studio' },
-  { title: 'Xcode', app: 'com.apple.dt.Xcode' },
   '-',
-  { title: 'Other App…', symbol: 'ellipsis.circle' },
+  { title: 'Settings…', symbol: 'gearshape' },
 ];
 const templates = ['notes.md', '.env', 'README.md', 'todo.txt'];
 const files = [
@@ -315,10 +311,10 @@ const gap = px => h('div', { style: { height: px + 'px' } });
 // Scenes return the elements to place, and an optional function to run once they're laid out.
 const scenes = {
   // The README's hero: right-clicking empty space shows Finder's own items, faded here, then
-  // Finder Menu's, with Open Folder With open.
+  // More Actions, open.
   menu() {
-    const main = menu([...finderItems, ...ours(false, true)], 178, 196);
-    const sub = menu(editors);
+    const main = menu([...finderItems, moreActions], 178, 196);
+    const sub = menu(ours({ hover: 'Open Terminal Here' }));
     const arrow = cursor();
     return {
       parts: [finderWindow(0, 0, 600, 470), main, sub, arrow],
@@ -336,7 +332,8 @@ const scenes = {
       checkbox('Save as template'),
       h('div', { cls: 'buttons' }, h('div', null, 'Cancel'), h('div', { cls: 'default' }, 'Create')));
     const then = h('div', { cls: 'then' }, sym('arrow.right', 22, 'semibold'));
-    const main = menu(ours(true, false));
+    const main = menu([moreActions]);
+    const more = menu(ours({ newFile: true }));
     const sub = menu([
       { title: 'New File…', symbol: 'doc.badge.plus' },
       '-',
@@ -346,7 +343,7 @@ const scenes = {
     ]);
     const arrow = cursor();
     return {
-      parts: [dialog, then, main, sub, arrow],
+      parts: [dialog, then, main, more, sub, arrow],
       layout() {
         // The menus sit level with the middle of the dialog, past an arrow.
         const middle = dialog.offsetHeight / 2;
@@ -354,7 +351,8 @@ const scenes = {
         then.style.top = middle - 11 + 'px';
         main.style.left = '432px';
         main.style.top = middle - sub.offsetHeight / 2 + 'px';
-        attach(main, sub);
+        attach(main, more);
+        attach(more, sub);
         pointAt(sub, arrow);
       },
     };
@@ -366,22 +364,29 @@ const scenes = {
         h('div', { cls: 'titlebar' }, lights('closable-only'), 'Finder Menu Settings'),
         h('div', { cls: 'content' },
           h('div', { cls: 'header' }, h('img', { src: '../icon.png', alt: '' }),
-            h('div', null, h('div', { cls: 'name' }, 'Finder Menu'), h('div', { cls: 'version' }, 'Version 1.4.0'),
-              h('div', { cls: 'link' }, 'github.com/nikgrbn/finder-menu'))),
+            h('div', null, h('div', { cls: 'name' }, 'Finder Menu'), h('div', { cls: 'version' }, 'Version 1.6.0'),
+              h('div', { cls: 'link' }, 'github.com/stuloh/finder-menu-lite'),
+              h('div', { cls: 'link' }, 'Based on Finder Menu by nikgrbn'))),
           gap(20), h('div', { cls: 'section' }, 'Show in the right-click menu'), gap(10),
           // Copy Name starts hidden, like in a new install.
-          ['New File…', 'Open Terminal Here', 'Open Folder With', 'Copy Path', 'Copy Name', 'Go to Parent Folder']
+          ['New File…', 'Open Terminal Here', 'Open Folder With', 'Copy Path', 'Copy Name', 'Convert to PDF',
+           'Convert to JPG', 'Resize to 1600', 'Go to Parent Folder']
             .flatMap((title, i) => [i ? gap(8) : null, checkbox(title, title !== 'Copy Name')]),
-          gap(14), checkbox('Also on external and network drives'),
+          gap(14), checkbox('Group items under More Actions'),
+          gap(8), checkbox('Also on external and network drives'),
           gap(8), checkbox('Show icons'),
           gap(20), h('div', { cls: 'section' }, 'Open Terminal Here uses'), gap(10),
           h('div', { cls: 'popup' }, appIcon('com.googlecode.iterm2'), 'iTerm2',
             sym('chevron.up.chevron.down', 10, 'semibold', 'updown')),
+          gap(20), h('div', { cls: 'section' }, 'JPEG quality'), gap(10),
+          h('div', { cls: 'popup' }, '90%', sym('chevron.up.chevron.down', 10, 'semibold', 'updown')),
           gap(20), h('div', { cls: 'section' }, 'New File templates'), gap(10),
           templates.slice(0, 3).flatMap((name, i) => [i ? gap(6) : null,
             h('div', { cls: 'template' }, name, h('div', { cls: 'button' }, 'Remove'))]),
           gap(12), h('div', { cls: 'template' }, h('span'), h('div', { cls: 'button' }, 'Remove All')),
-          gap(20), h('div', { cls: 'note' }, 'Changes apply the next time you right-click in Finder.')))],
+          gap(20), h('div', { cls: 'note' }, 'Changes apply the next time you right-click in Finder.'),
+          gap(8), h('div', { cls: 'note' }, "The menu doesn't appear in iCloud Drive, OneDrive, Dropbox or Google Drive folders. macOS doesn't show other apps' Finder menus there."),
+          gap(8), h('div', { cls: 'note' }, 'To uninstall, run ./uninstall.sh in the folder you installed from, or turn off Finder Menu in System Settings → General → Login Items & Extensions and delete it from ~/Applications.')))],
     };
   },
 };

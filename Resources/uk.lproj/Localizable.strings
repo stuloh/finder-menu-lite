@@ -47,6 +47,7 @@
 /* Settings Window */
 "Finder Menu Settings" = "Параметри Finder Menu";
 "Version %@" = "Версія %@";
+"Based on Finder Menu by %@" = "На основі Finder Menu від %@";
 "Show in the right-click menu" = "Показувати в контекстному меню";
 "Also on external and network drives" = "Також на зовнішніх і мережевих дисках";
 "Group items under More Actions" = "Згрупувати пункти в «Інші дії»";
@@ -54,6 +55,8 @@
 "Open Terminal Here uses" = "Термінал для «Відкрити в терміналі»";
 "Automatic (%@)" = "Автоматично (%@)";
 "Changes apply the next time you right-click in Finder." = "Зміни набудуть чинності після наступного клацання правою кнопкою в Finder.";
+"The menu doesn't appear in iCloud Drive, OneDrive, Dropbox or Google Drive folders. macOS doesn't show other apps' Finder menus there." = "Меню не з’являється в папках iCloud Drive, OneDrive, Dropbox і Google Drive: macOS не показує там меню Finder інших програм.";
+"To uninstall, run ./uninstall.sh in the folder you installed from, or turn off Finder Menu in System Settings → General → Login Items & Extensions and delete it from ~/Applications." = "Щоб видалити, запустіть ./uninstall.sh у папці, з якої встановлювали, або вимкніть Finder Menu в Системних параметрах → Загальні → Елементи входу й розширення та видаліть його з ~/Програми.";
 "Choose the app for Open Terminal Here:" = "Виберіть програму для «Відкрити в терміналі»:";
 "Choose" = "Вибрати";
 "JPEG quality" = "Якість JPEG";

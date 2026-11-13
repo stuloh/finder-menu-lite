@@ -115,10 +115,16 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     @objc private func showAbout(_ sender: Any?) {
         let centered = NSMutableParagraphStyle()
         centered.alignment = .center
-        let link = NSAttributedString(string: repositoryName, attributes: [
-            .link: repositoryURL, .font: NSFont.systemFont(ofSize: NSFont.smallSystemFontSize), .paragraphStyle: centered,
+        let small = NSFont.systemFont(ofSize: NSFont.smallSystemFontSize)
+        // This fork, then the project it's based on.
+        let credits = NSMutableAttributedString(string: repositoryName, attributes: [
+            .link: repositoryURL, .font: small, .paragraphStyle: centered,
         ])
-        NSApp.orderFrontStandardAboutPanel(options: [.credits: link])
+        credits.append(NSAttributedString(string: "\n", attributes: [.font: small, .paragraphStyle: centered]))
+        credits.append(NSAttributedString(string: basedOnOriginal, attributes: [
+            .link: originalURL, .font: small, .paragraphStyle: centered,
+        ]))
+        NSApp.orderFrontStandardAboutPanel(options: [.credits: credits])
     }
 
     // A menu action is done. Quit, unless the settings window is open.
@@ -233,11 +239,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         }
     }
 
-    // Finder selects the new files, and anything that went wrong is listed in one alert.
+    // Finder selects the new files (unless they're on the Desktop), and anything that went wrong is listed in one alert.
     private func report(_ result: ConversionResult) {
-        if !result.created.isEmpty {
-            NSWorkspace.shared.activateFileViewerSelecting(result.created.map { URL(fileURLWithPath: $0) })
-        }
+        revealInFinder(result.created)
         guard !result.problems.isEmpty else { return }
         let alert = NSAlert()
         alert.alertStyle = .warning
@@ -327,7 +331,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
                 // A separate existence check cannot prevent another process from creating the same path.
                 try Data().write(to: URL(fileURLWithPath: full), options: .withoutOverwriting)
                 if saveAsTemplate { saveFileTemplate(filename: name) }
-                NSWorkspace.shared.activateFileViewerSelecting([URL(fileURLWithPath: full)])
+                revealInFinder([full])
                 return
             } catch let error as CocoaError where error.code == .fileWriteFileExists {
                 let existsFormat = NSLocalizedString("⚠️ \"%@\" already exists.", comment: "")
