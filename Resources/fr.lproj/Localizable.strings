@@ -4,8 +4,13 @@
 "Open Folder With" = "Ouvrir le dossier avec";
 "Copy Path" = "Copier le chemin";
 "Copy Name" = "Copier le nom";
+"Convert to PDF" = "Convertir en PDF";
+"Convert to JPG" = "Convertir en JPG";
+"Resize to 1600" = "Redimensionner à 1600";
 "Go to Parent Folder" = "Aller au dossier parent";
 "Other App…" = "Autre app…";
+"More Actions" = "Autres actions";
+"Settings…" = "Réglages…";
 
 /* New File Dialog */
 "New File" = "Nouveau fichier";
@@ -13,6 +18,10 @@
 "⚠️ That isn't a valid file name." = "⚠️ Ce nom de fichier n’est pas valide.";
 "⚠️ \"%@\" already exists." = "⚠️ « %@ » existe déjà.";
 "⚠️ Couldn't create the file here (no permission?)." = "⚠️ Impossible de créer le fichier ici (permission manquante ?).";
+"Couldn't convert “%@” to PDF." = "Impossible de convertir « %@ » en PDF.";
+"Couldn't convert “%@” to JPG." = "Impossible de convertir « %@ » en JPG.";
+"Couldn't resize “%@”." = "Impossible de redimensionner « %@ ».";
+"“%@” is already 1600 pixels or smaller." = "« %@ » fait déjà 1600 pixels ou moins.";
 "Create" = "Créer";
 "Cancel" = "Annuler";
 "Save as template" = "Enregistrer comme modèle";
@@ -40,12 +49,14 @@
 "Version %@" = "Version %@";
 "Show in the right-click menu" = "Afficher dans le menu contextuel";
 "Also on external and network drives" = "Aussi sur les disques externes et réseau";
+"Group items under More Actions" = "Regrouper les éléments sous « Autres actions »";
 "Show icons" = "Afficher les icônes";
 "Open Terminal Here uses" = "Ouvrir le Terminal ici utilise";
 "Automatic (%@)" = "Automatique (%@)";
 "Changes apply the next time you right-click in Finder." = "Les changements s’appliquent au prochain clic droit dans le Finder.";
 "Choose the app for Open Terminal Here:" = "Choisissez l’app pour Ouvrir le Terminal ici :";
 "Choose" = "Choisir";
+"JPEG quality" = "Qualité JPEG";
 "New File templates" = "Modèles de nouveau fichier";
 "No templates yet." = "Aucun modèle pour l’instant.";
 "Remove" = "Supprimer";

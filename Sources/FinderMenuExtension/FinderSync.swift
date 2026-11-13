@@ -49,6 +49,12 @@ class FinderMenuSync: FIFinderSync {
             case "open-with": entry.submenu = Self.openWithMenu()
             case "copy-path": entry.action = #selector(copyPath(_:))
             case "copy-name": entry.action = #selector(copyName(_:))
+            case "to-pdf", "to-jpg", "resize":
+                // Only when every selected item is a file this converts, never for the folder you're in.
+                let (accepts, action) = Self.conversions[item.id]!
+                let files = selection
+                guard menuKind == .contextualMenuForItems, !files.isEmpty, files.allSatisfy(accepts) else { continue }
+                entry.action = action
             case "parent-folder":
                 guard let dir = currentFolder, !isDriveRoot(dir) else { continue }
                 entry.action = #selector(goUp(_:))
@@ -57,7 +63,18 @@ class FinderMenuSync: FIFinderSync {
             entry.image = Self.symbol(item.symbol)
             menu.addItem(entry)
         }
-        return menu.items.isEmpty ? nil : menu
+        guard !menu.items.isEmpty else { return nil }
+        guard groupsInSubmenu else { return menu }
+        // One item in Finder's menu, with everything else under it.
+        let grouped = NSMenu(title: "")
+        let more = grouped.addItem(withTitle: NSLocalizedString("More Actions", comment: ""), action: nil, keyEquivalent: "")
+        more.image = Self.symbol("ellipsis.circle")
+        // Last in the submenu, and not hideable: it's the way back to these choices.
+        menu.addItem(.separator())
+        menu.addItem(withTitle: NSLocalizedString("Settings…", comment: ""), action: #selector(openSettings(_:)), keyEquivalent: "")
+            .image = Self.symbol("gearshape")
+        more.submenu = menu
+        return grouped
     }
 
     // Other apps' Open and Save dialogs show this menu too, in that app's appearance, which can differ
@@ -147,7 +164,7 @@ class FinderMenuSync: FIFinderSync {
                 .image = icon
         }
         sub.addItem(.separator())
-        sub.addItem(withTitle: NSLocalizedString("Manage Templates…", comment: ""), action: #selector(FinderMenuSync.manageTemplates(_:)), keyEquivalent: "")
+        sub.addItem(withTitle: NSLocalizedString("Manage Templates…", comment: ""), action: #selector(FinderMenuSync.openSettings(_:)), keyEquivalent: "")
             .image = symbol("gearshape")
         return sub
     }
@@ -187,8 +204,8 @@ class FinderMenuSync: FIFinderSync {
         callHelper("newfile", dir.path, template: template.id)
     }
 
-    // The extension can only read settings, so the helper's settings window removes templates.
-    @objc func manageTemplates(_ sender: AnyObject?) {
+    // Settings… and Manage Templates…: the extension can only read settings, so the helper's window changes them.
+    @objc func openSettings(_ sender: AnyObject?) {
         callHelper("settings")
     }
 
@@ -209,6 +226,24 @@ class FinderMenuSync: FIFinderSync {
         }
     }
 
+    // Which files each conversion takes, and its action.
+    private static let conversions: [String: (accepts: (URL) -> Bool, action: Selector)] = [
+        "to-pdf": (isWordDocument, #selector(convertToPDF(_:))),
+        "to-jpg": (isJPGSource, #selector(convertToJPG(_:))),
+        "resize": (isResizable, #selector(resizeImages(_:))),
+    ]
+
+    // The helper (outside the sandbox) writes the new files: Word converts to PDF, ImageIO does images.
+    @objc func convertToPDF(_ sender: AnyObject?) { sendSelection("topdf", isWordDocument) }
+    @objc func convertToJPG(_ sender: AnyObject?) { sendSelection("tojpg", isJPGSource) }
+    @objc func resizeImages(_ sender: AnyObject?) { sendSelection("resize", isResizable) }
+
+    private func sendSelection(_ action: String, _ accepts: (URL) -> Bool) {
+        let files = selection.filter(accepts)
+        guard !files.isEmpty else { return }
+        callHelper(action, paths: files.map(\.path))
+    }
+
     // One line per selected item, or the folder you're in when nothing is selected.
     private func copyToPasteboard(_ text: (URL) -> String) {
         let urls = selection.isEmpty ? [currentFolder].compactMap { $0 } : selection
@@ -218,11 +253,13 @@ class FinderMenuSync: FIFinderSync {
     }
 
     // The extension is sandboxed, so file creation and app launching happen in the helper app.
-    private func callHelper(_ action: String, _ path: String? = nil, app: String? = nil, template: String? = nil) {
+    // Several files (Convert to PDF) travel as repeated path= items.
+    private func callHelper(_ action: String, _ path: String? = nil, paths: [String] = [], app: String? = nil, template: String? = nil) {
         var c = URLComponents()
         c.scheme = "findermenu"
         c.host = action
-        let items = [("path", path), ("app", app), ("template", template)]
+        let items = ([path].compactMap { $0 } + paths).map { URLQueryItem(name: "path", value: $0) }
+            + [("app", app), ("template", template)]
             .compactMap { name, value in value.map { URLQueryItem(name: name, value: $0) } }
         if !items.isEmpty { c.queryItems = items }
         if let url = c.url { NSWorkspace.shared.open(url) }

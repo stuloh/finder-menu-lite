@@ -42,3 +42,50 @@ func unusedFilename(_ filename: String, in dir: String) -> String {
 func appleScriptString(_ s: String) -> String {
     "\"" + s.replacingOccurrences(of: "\\", with: "\\\\").replacingOccurrences(of: "\"", with: "\\\"") + "\""
 }
+
+// Conversions only act on existing absolute paths to files they accept: no folders or packages.
+func existingFile(for path: String, matching accepts: (URL) -> Bool) -> String? {
+    guard path.hasPrefix("/") else { return nil }
+    let path = (path as NSString).standardizingPath
+    var isDir: ObjCBool = false
+    guard FileManager.default.fileExists(atPath: path, isDirectory: &isDir), !isDir.boolValue,
+          accepts(URL(fileURLWithPath: path)) else { return nil }
+    return path
+}
+
+// Where a converted copy goes: next to the original, named after it with a free name.
+// siblingPath(for: "/a/photo.png", suffix: " 1600px", ext: "png") → /a/photo 1600px.png, /a/photo 1600px 2.png, …
+func siblingPath(for original: String, suffix: String = "", ext: String) -> String {
+    let dir = (original as NSString).deletingLastPathComponent
+    let base = ((original as NSString).lastPathComponent as NSString).deletingPathExtension
+    return (dir as NSString).appendingPathComponent(unusedFilename(base + suffix + "." + ext, in: dir))
+}
+
+// Has Word save `source` as a PDF at `destination`. A document that was already open stays open,
+// and Word quits afterwards only if this started it and nothing else is open.
+func wordToPDFScript(source: String, destination: String) -> String {
+    """
+    set wasRunning to application id "com.microsoft.Word" is running
+    tell application id "com.microsoft.Word"
+        set theDoc to missing value
+        repeat with d in documents
+            try
+                if posix full name of d is \(appleScriptString(source)) then set theDoc to contents of d
+            end try
+        end repeat
+        set wasOpen to theDoc is not missing value
+        if not wasOpen then
+            open (POSIX file \(appleScriptString(source)))
+            set theDoc to active document
+        end if
+        try
+            save as theDoc file name \(appleScriptString(destination)) file format format PDF
+        on error message number code
+            if not wasOpen then close theDoc saving no
+            error message number code
+        end try
+        if not wasOpen then close theDoc saving no
+        if not wasRunning and (count of documents) is 0 then quit
+    end tell
+    """
+}

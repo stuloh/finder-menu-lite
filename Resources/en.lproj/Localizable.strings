@@ -4,8 +4,13 @@
 "Open Folder With" = "Open Folder With";
 "Copy Path" = "Copy Path";
 "Copy Name" = "Copy Name";
+"Convert to PDF" = "Convert to PDF";
+"Convert to JPG" = "Convert to JPG";
+"Resize to 1600" = "Resize to 1600";
 "Go to Parent Folder" = "Go to Parent Folder";
 "Other App…" = "Other App…";
+"More Actions" = "More Actions";
+"Settings…" = "Settings…";
 
 /* New File Dialog */
 "New File" = "New File";
@@ -13,6 +18,10 @@
 "⚠️ That isn't a valid file name." = "⚠️ That isn't a valid file name.";
 "⚠️ \"%@\" already exists." = "⚠️ \"%@\" already exists.";
 "⚠️ Couldn't create the file here (no permission?)." = "⚠️ Couldn't create the file here (no permission?).";
+"Couldn't convert “%@” to PDF." = "Couldn't convert “%@” to PDF.";
+"Couldn't convert “%@” to JPG." = "Couldn't convert “%@” to JPG.";
+"Couldn't resize “%@”." = "Couldn't resize “%@”.";
+"“%@” is already 1600 pixels or smaller." = "“%@” is already 1600 pixels or smaller.";
 "Create" = "Create";
 "Cancel" = "Cancel";
 "Save as template" = "Save as template";
@@ -40,12 +49,14 @@
 "Version %@" = "Version %@";
 "Show in the right-click menu" = "Show in the right-click menu";
 "Also on external and network drives" = "Also on external and network drives";
+"Group items under More Actions" = "Group items under More Actions";
 "Show icons" = "Show icons";
 "Open Terminal Here uses" = "Open Terminal Here uses";
 "Automatic (%@)" = "Automatic (%@)";
 "Changes apply the next time you right-click in Finder." = "Changes apply the next time you right-click in Finder.";
 "Choose the app for Open Terminal Here:" = "Choose the app for Open Terminal Here:";
 "Choose" = "Choose";
+"JPEG quality" = "JPEG quality";
 "New File templates" = "New File templates";
 "No templates yet." = "No templates yet.";
 "Remove" = "Remove";

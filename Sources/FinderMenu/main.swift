@@ -20,6 +20,14 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             guard let c = URLComponents(url: url, resolvingAgainstBaseURL: false) else { continue }
             // Manage Templates… doesn't act on a folder.
             if c.host == "settings" { showSettings(); continue }
+            // Conversions act on files, not on a folder.
+            let paths = c.queryItems?.filter { $0.name == "path" }.compactMap(\.value) ?? []
+            switch c.host {
+            case "topdf": convertToPDF(paths.compactMap { existingFile(for: $0, matching: isWordDocument) }); continue
+            case "tojpg": convertToJPG(paths.compactMap { existingFile(for: $0, matching: isJPGSource) }); continue
+            case "resize": resizeImages(paths.compactMap { existingFile(for: $0, matching: isResizable) }); continue
+            default: break
+            }
             guard let path = c.queryItems?.first(where: { $0.name == "path" })?.value,
                   let dir = folder(for: path) else { continue }
             switch c.host {
@@ -163,6 +171,80 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         var error: NSDictionary?
         NSAppleScript(source: script)?.executeAndReturnError(&error)
         if let error { NSLog("Finder Menu go-up failed: \(error)") }
+    }
+
+    // Word saves each document as a PDF next to it.
+    private func convertToPDF(_ documents: [String]) {
+        var result = ConversionResult()
+        for document in documents {
+            let destination = siblingPath(for: document, ext: "pdf")
+            var error: NSDictionary?
+            NSAppleScript(source: wordToPDFScript(source: document, destination: destination))?.executeAndReturnError(&error)
+            if error == nil, FileManager.default.fileExists(atPath: destination) {
+                result.created.append(destination)
+            } else {
+                NSLog("Finder Menu convert to PDF failed: \(String(describing: error))")
+                result.fail(document, NSLocalizedString("Couldn't convert “%@” to PDF.", comment: ""),
+                            reason: error?[NSAppleScript.errorMessage] as? String)
+            }
+        }
+        report(result)
+    }
+
+    private func convertToJPG(_ images: [String]) {
+        var result = ConversionResult()
+        let quality = jpegQuality
+        for image in images {
+            do {
+                result.created.append(try FinderMenu.convertToJPG(image, quality: quality))
+            } catch {
+                result.fail(image, NSLocalizedString("Couldn't convert “%@” to JPG.", comment: ""))
+            }
+        }
+        report(result)
+    }
+
+    private func resizeImages(_ images: [String]) {
+        var result = ConversionResult()
+        let quality = jpegQuality
+        for image in images {
+            do {
+                if let resized = try resizeImage(image, quality: quality) {
+                    result.created.append(resized)
+                } else {
+                    result.fail(image, NSLocalizedString("“%@” is already 1600 pixels or smaller.", comment: ""))
+                }
+            } catch {
+                result.fail(image, NSLocalizedString("Couldn't resize “%@”.", comment: ""))
+            }
+        }
+        report(result)
+    }
+
+    // What a conversion made, and what it couldn't, with a line for each file it couldn't.
+    private struct ConversionResult {
+        var created: [String] = []
+        var problems: [String] = []
+        var reason: String?
+
+        mutating func fail(_ file: String, _ format: String, reason: String? = nil) {
+            problems.append(String(format: format, (file as NSString).lastPathComponent))
+            if self.reason == nil, let reason, !reason.isEmpty { self.reason = reason }
+        }
+    }
+
+    // Finder selects the new files, and anything that went wrong is listed in one alert.
+    private func report(_ result: ConversionResult) {
+        if !result.created.isEmpty {
+            NSWorkspace.shared.activateFileViewerSelecting(result.created.map { URL(fileURLWithPath: $0) })
+        }
+        guard !result.problems.isEmpty else { return }
+        let alert = NSAlert()
+        alert.alertStyle = .warning
+        alert.messageText = result.problems.joined(separator: "\n")
+        alert.informativeText = result.reason ?? ""
+        RunLoop.main.perform(inModes: [.modalPanel]) { NSApp.activate(ignoringOtherApps: true) }
+        alert.runModal()
     }
 
     // Uses the terminal picked in settings (or with `finder-menu terminal <app>`), otherwise the first installed one.
