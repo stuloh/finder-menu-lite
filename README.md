@@ -64,6 +64,10 @@ Right-click **empty space** in any folder, with nothing selected. The items sit 
 | <picture><source media="(prefers-color-scheme: dark)" srcset="docs/icons/parent-folder-dark.png"><img src="docs/icons/parent-folder.png" width="20" height="20" alt=""></picture> | **Go&nbsp;to&nbsp;Parent&nbsp;Folder** | Moves the window up one level, even when Finder's Back button is greyed out (e.g. a window opened with `open .`). |
 
 | | **Convert&nbsp;to&nbsp;PDF** | Right-click one or more Word documents (`.docx`, `.doc`) to save a PDF next to each, like `report.pdf`. Microsoft Word does the converting, so it needs Word installed. Never overwrites: if the name is taken, you get `report 2.pdf`. |
+| | **Convert&nbsp;to&nbsp;JPG** | Right-click PNG, HEIC, TIFF, GIF, BMP, WebP or AVIF images to save a JPEG copy of each, like `photo.jpg`. Transparent areas become white. The quality is 90% unless you change it in [settings](#settings). |
+| | **Resize&nbsp;to&nbsp;1600** | Right-click images (JPEG too) to save a copy whose longest side is 1600 pixels, like `photo 1600px.png`, in the same format. Images already that small are skipped. |
+
+These conversions always make a new file next to the original and never change or overwrite anything.
 
 Right-clicking a file or folder works too: **Copy Path** and **Copy Name** copy the selected items' paths or names (file names with their extensions), and **Open Terminal Here** and **Open Folder With** use the selected folder.
 
@@ -127,6 +131,7 @@ Choose **More Actions ▸ Settings…** in the right-click menu, open **Finder M
 - choose whether the items sit under one **More Actions** item (they do by default) or side by side in Finder's menu
 - choose whether the menu also appears on external and network drives (it does by default)
 - turn the menu's icons on or off (by default they follow Finder: on in macOS 26 and later, off before)
+- pick the JPEG quality for **Convert to JPG** and **Resize to 1600** (90% by default)
 - pick the terminal for **Open Terminal Here**. Automatic uses the first one installed, in this order: iTerm2, Ghostty, Warp, WezTerm, kitty, Alacritty, Terminal. **Other App…** lets you pick any app.
 - remove [New File templates](#new-file-templates)
 
@@ -207,7 +212,7 @@ You build Finder Menu yourself from this source, so there's no downloaded app to
 - **No network access.** There's no networking code, so nothing is sent anywhere: no telemetry, no analytics, no update checks.
 - **Small enough to read.** About 900 lines of Swift and 185 lines of shell scripts (`install.sh`, `uninstall.sh` and `scripts/`). Read them before you run them.
 - **Sandboxed Finder extension.** It can't read your files. It only gets the folder you right-click, the items you select, the list of mounted drives and which app owns the window under the pointer (to tell Finder from an Open or Save dialog; never a window's title or contents), plus read-only access to Finder Menu's own settings (which items to show, where, and with or without icons, plus any New File templates).
-- **The helper only acts when you pick a menu item.** It creates an empty file with the name you type or a template name you saved (never overwriting anything), opens a terminal or an app in a folder, moves the Finder window up a level, or has Word save the Word documents you selected as PDFs next to them (never overwriting anything).
+- **The helper only acts when you pick a menu item.** It creates an empty file with the name you type or a template name you saved (never overwriting anything), opens a terminal or an app in a folder, moves the Finder window up a level, has Word save the Word documents you selected as PDFs next to them, or saves JPEG and resized copies of the images you selected (converted on your Mac with macOS's own ImageIO, no other app or permission needed). It never overwrites anything.
 - **Links from other apps are ignored.** The extension sends actions to the helper as `findermenu://` links. Other apps can send those links too, and so can a website after your browser asks you. Opening a folder they choose in a terminal or IDE could run code from it, so the helper checks the code signature of whatever sent each link and ignores any that didn't come from its own Finder extension. On top of that, it only acts on folders that exist, only opens apps from its built-in IDE list (or one you pick yourself), asks before a custom New File, and for templates only uses a file name you already saved (never taken from the URL).
 - **Two permissions.** Go to Parent Folder asks once to control Finder, and Convert to PDF asks once to control Microsoft Word. Finder Menu doesn't ask for Full Disk Access, Accessibility or anything else.
 - **Signed locally, not notarized.** `install.sh` signs the build on your Mac ("Sign to Run Locally"). It isn't notarized by Apple, because there's no download for Apple to check.

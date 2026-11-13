@@ -5,6 +5,8 @@
 "Copy Path" = "Copy Path";
 "Copy Name" = "Copy Name";
 "Convert to PDF" = "Convert to PDF";
+"Convert to JPG" = "Convert to JPG";
+"Resize to 1600" = "Resize to 1600";
 "Go to Parent Folder" = "Go to Parent Folder";
 "Other App…" = "Other App…";
 "More Actions" = "More Actions";
@@ -17,6 +19,9 @@
 "⚠️ \"%@\" already exists." = "⚠️ \"%@\" already exists.";
 "⚠️ Couldn't create the file here (no permission?)." = "⚠️ Couldn't create the file here (no permission?).";
 "Couldn't convert “%@” to PDF." = "Couldn't convert “%@” to PDF.";
+"Couldn't convert “%@” to JPG." = "Couldn't convert “%@” to JPG.";
+"Couldn't resize “%@”." = "Couldn't resize “%@”.";
+"“%@” is already 1600 pixels or smaller." = "“%@” is already 1600 pixels or smaller.";
 "Create" = "Create";
 "Cancel" = "Cancel";
 "Save as template" = "Save as template";
@@ -51,6 +56,7 @@
 "Changes apply the next time you right-click in Finder." = "Changes apply the next time you right-click in Finder.";
 "Choose the app for Open Terminal Here:" = "Choose the app for Open Terminal Here:";
 "Choose" = "Choose";
+"JPEG quality" = "JPEG quality";
 "New File templates" = "New File templates";
 "No templates yet." = "No templates yet.";
 "Remove" = "Remove";

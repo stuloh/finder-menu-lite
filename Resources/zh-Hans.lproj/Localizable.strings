@@ -5,6 +5,8 @@
 "Copy Path" = "拷贝路径";
 "Copy Name" = "拷贝名称";
 "Convert to PDF" = "转换为 PDF";
+"Convert to JPG" = "转换为 JPG";
+"Resize to 1600" = "缩小到 1600";
 "Go to Parent Folder" = "前往上层文件夹";
 "Other App…" = "其他应用…";
 "More Actions" = "更多操作";
@@ -17,6 +19,9 @@
 "⚠️ \"%@\" already exists." = "⚠️ “%@”已存在。";
 "⚠️ Couldn't create the file here (no permission?)." = "⚠️ 无法在此处创建文件（可能没有权限）。";
 "Couldn't convert “%@” to PDF." = "无法将“%@”转换为 PDF。";
+"Couldn't convert “%@” to JPG." = "无法将“%@”转换为 JPG。";
+"Couldn't resize “%@”." = "无法调整“%@”的大小。";
+"“%@” is already 1600 pixels or smaller." = "“%@”已经是 1600 像素或更小。";
 "Create" = "创建";
 "Cancel" = "取消";
 "Save as template" = "存为模板";
@@ -51,6 +56,7 @@
 "Changes apply the next time you right-click in Finder." = "更改将在下次于访达中右键时生效。";
 "Choose the app for Open Terminal Here:" = "选择“在此处打开终端”使用的应用：";
 "Choose" = "选择";
+"JPEG quality" = "JPEG 质量";
 "New File templates" = "“新建文件”模板";
 "No templates yet." = "暂无模板。";
 "Remove" = "移除";

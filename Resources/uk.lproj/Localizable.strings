@@ -5,6 +5,8 @@
 "Copy Path" = "Скопіювати шлях";
 "Copy Name" = "Скопіювати назву";
 "Convert to PDF" = "Перетворити на PDF";
+"Convert to JPG" = "Перетворити на JPG";
+"Resize to 1600" = "Зменшити до 1600";
 "Go to Parent Folder" = "Перейти до батьківської папки";
 "Other App…" = "Інша програма…";
 "More Actions" = "Інші дії";
@@ -17,6 +19,9 @@
 "⚠️ \"%@\" already exists." = "⚠️ «%@» уже існує.";
 "⚠️ Couldn't create the file here (no permission?)." = "⚠️ Не вдалося створити тут файл (немає прав доступу?).";
 "Couldn't convert “%@” to PDF." = "Не вдалося перетворити «%@» на PDF.";
+"Couldn't convert “%@” to JPG." = "Не вдалося перетворити «%@» на JPG.";
+"Couldn't resize “%@”." = "Не вдалося змінити розмір «%@».";
+"“%@” is already 1600 pixels or smaller." = "«%@» вже має 1600 пікселів або менше.";
 "Create" = "Створити";
 "Cancel" = "Скасувати";
 "Save as template" = "Зберегти як шаблон";
@@ -51,6 +56,7 @@
 "Changes apply the next time you right-click in Finder." = "Зміни набудуть чинності після наступного клацання правою кнопкою в Finder.";
 "Choose the app for Open Terminal Here:" = "Виберіть програму для «Відкрити в терміналі»:";
 "Choose" = "Вибрати";
+"JPEG quality" = "Якість JPEG";
 "New File templates" = "Шаблони «Новий файл»";
 "No templates yet." = "Ще немає шаблонів.";
 "Remove" = "Видалити";

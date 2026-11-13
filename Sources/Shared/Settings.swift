@@ -15,6 +15,8 @@ let menuItems: [(id: String, title: String, symbol: String)] = [
     ("copy-path", "Copy Path", "doc.on.doc"),
     ("copy-name", "Copy Name", "character.cursor.ibeam"),
     ("to-pdf", "Convert to PDF", "doc.richtext"),
+    ("to-jpg", "Convert to JPG", "photo"),
+    ("resize", "Resize to 1600", "arrow.down.right.and.arrow.up.left"),
     ("parent-folder", "Go to Parent Folder", "arrow.turn.left.up"),
 ]
 
@@ -52,6 +54,18 @@ var showsOnOtherDrives: Bool {
 var groupsInSubmenu: Bool {
     get { !settings.bool(forKey: "Ungrouped") }
     set { if newValue { settings.removeObject(forKey: "Ungrouped") } else { settings.set(true, forKey: "Ungrouped") } }
+}
+
+// JPEG quality for Convert to JPG, and for Resize when it writes a JPEG. 0.9 unless changed in settings.
+let jpegQualities = [0.6, 0.7, 0.8, 0.9, 1.0]
+private let defaultJPEGQuality = 0.9
+
+var jpegQuality: Double {
+    get {
+        let saved = settings.double(forKey: "JPEGQuality")
+        return (0.6...1.0).contains(saved) ? saved : defaultJPEGQuality
+    }
+    set { if newValue == defaultJPEGQuality { settings.removeObject(forKey: "JPEGQuality") } else { settings.set(newValue, forKey: "JPEGQuality") } }
 }
 
 // The settings window posts this when showsOnOtherDrives changes. Finder only asks the extension about

@@ -14,16 +14,16 @@ func testWordDocuments() throws {
     FileManager.default.createFile(atPath: report, contents: nil)
     FileManager.default.createFile(atPath: dir + "/notes.txt", contents: nil)
     try FileManager.default.createDirectory(atPath: dir + "/folder.docx", withIntermediateDirectories: false)
-    checkEqual(wordDocument(for: report), report)
-    checkEqual(wordDocument(for: dir + "/./sub/../report.docx"), report)
+    checkEqual(existingFile(for: report, matching: isWordDocument), report)
+    checkEqual(existingFile(for: dir + "/./sub/../report.docx", matching: isWordDocument), report)
     for path in ["report.docx", dir + "/missing.docx", dir + "/notes.txt", dir + "/folder.docx"] {
-        checkEqual(wordDocument(for: path), nil)
+        checkEqual(existingFile(for: path, matching: isWordDocument), nil)
     }
 
     // Never overwrites: the next free name, Finder style.
-    checkEqual(pdfPath(for: report), dir + "/report.pdf")
+    checkEqual(siblingPath(for: report, ext: "pdf"), dir + "/report.pdf")
     FileManager.default.createFile(atPath: dir + "/report.pdf", contents: nil)
-    checkEqual(pdfPath(for: report), dir + "/report 2.pdf")
+    checkEqual(siblingPath(for: report, ext: "pdf"), dir + "/report 2.pdf")
 
     // Paths reach Word only as escaped AppleScript strings.
     let source = #"/Users/me/"odd" \ name.docx"#

@@ -9,6 +9,7 @@ let repositoryName = "github.com/nikgrbn/finder-menu"
 // Every change is saved right away and applies on the next right-click.
 final class SettingsWindowController: NSWindowController {
     private let terminalPopup = NSPopUpButton()
+    private let qualityPopup = NSPopUpButton()
     private let chooseOtherTag = 1
     private let templatesStack = NSStackView()
 
@@ -59,6 +60,18 @@ final class SettingsWindowController: NSWindowController {
         terminalPopup.isEnabled = !isHidden("terminal")
         reloadTerminalPopup()
 
+        // Percentages in the user's own number format, so they need no translation.
+        let percent = NumberFormatter()
+        percent.numberStyle = .percent
+        for quality in jpegQualities {
+            qualityPopup.addItem(withTitle: percent.string(from: quality as NSNumber) ?? "\(Int(quality * 100))%")
+            qualityPopup.lastItem?.representedObject = quality
+        }
+        qualityPopup.selectItem(at: jpegQualities.firstIndex(of: jpegQuality) ?? jpegQualities.firstIndex(of: 0.9)!)
+        qualityPopup.target = self
+        qualityPopup.action = #selector(pickQuality(_:))
+        updateQualityPopup()
+
         // .width so each row stretches; Remove can sit on the trailing edge.
         templatesStack.orientation = .vertical
         templatesStack.alignment = .width
@@ -73,8 +86,9 @@ final class SettingsWindowController: NSWindowController {
         let itemsLabel = Self.sectionLabel(NSLocalizedString("Show in the right-click menu", comment: ""))
         let terminalLabel = Self.sectionLabel(NSLocalizedString("Open Terminal Here uses", comment: ""))
         let templatesLabel = Self.sectionLabel(NSLocalizedString("New File templates", comment: ""))
+        let qualityLabel = Self.sectionLabel(NSLocalizedString("JPEG quality", comment: ""))
 
-        let stack = NSStackView(views: [header, itemsLabel] + checkboxes + [groupBox, drivesBox, iconsBox, terminalLabel, terminalPopup, templatesLabel, templatesStack, note])
+        let stack = NSStackView(views: [header, itemsLabel] + checkboxes + [groupBox, drivesBox, iconsBox, terminalLabel, terminalPopup, qualityLabel, qualityPopup, templatesLabel, templatesStack, note])
         stack.orientation = .vertical
         stack.alignment = .leading
         stack.spacing = 8
@@ -84,6 +98,8 @@ final class SettingsWindowController: NSWindowController {
         stack.setCustomSpacing(20, after: iconsBox)
         stack.setCustomSpacing(10, after: terminalLabel)
         stack.setCustomSpacing(20, after: terminalPopup)
+        stack.setCustomSpacing(10, after: qualityLabel)
+        stack.setCustomSpacing(20, after: qualityPopup)
         stack.setCustomSpacing(10, after: templatesLabel)
         stack.setCustomSpacing(20, after: templatesStack)
         terminalPopup.widthAnchor.constraint(greaterThanOrEqualToConstant: 240).isActive = true
@@ -196,6 +212,16 @@ final class SettingsWindowController: NSWindowController {
         let item = menuItems[sender.tag]
         setHidden(item.id, sender.state == .off)
         if item.id == "terminal" { terminalPopup.isEnabled = sender.state == .on }
+        updateQualityPopup()
+    }
+
+    // Only the image conversions use the JPEG quality.
+    private func updateQualityPopup() {
+        qualityPopup.isEnabled = !isHidden("to-jpg") || !isHidden("resize")
+    }
+
+    @objc private func pickQuality(_ sender: NSPopUpButton) {
+        if let quality = sender.selectedItem?.representedObject as? Double { jpegQuality = quality }
     }
 
     @objc private func toggleGrouping(_ sender: NSButton) {

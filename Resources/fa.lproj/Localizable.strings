@@ -5,6 +5,8 @@
 "Copy Path" = "کپی مسیر";
 "Copy Name" = "کپی نام";
 "Convert to PDF" = "تبدیل به PDF";
+"Convert to JPG" = "تبدیل به JPG";
+"Resize to 1600" = "تغییر اندازه به ۱۶۰۰";
 "Go to Parent Folder" = "رفتن به پوشه والد";
 "Other App…" = "برنامه دیگر…";
 "More Actions" = "کارهای بیشتر";
@@ -17,6 +19,9 @@
 "⚠️ \"%@\" already exists." = "⚠️ \U2068\"%@\"\U2069 از قبل وجود دارد.";
 "⚠️ Couldn't create the file here (no permission?)." = "⚠️ امکان ایجاد فایل در اینجا وجود نداشت (بدون مجوز؟).";
 "Couldn't convert “%@” to PDF." = "تبدیل «%@» به PDF ممکن نشد.";
+"Couldn't convert “%@” to JPG." = "تبدیل «%@» به JPG ممکن نشد.";
+"Couldn't resize “%@”." = "تغییر اندازه «%@» ممکن نشد.";
+"“%@” is already 1600 pixels or smaller." = "«%@» از قبل ۱۶۰۰ پیکسل یا کوچک‌تر است.";
 "Create" = "ایجاد";
 "Cancel" = "لغو";
 "Save as template" = "ذخیره به‌عنوان الگو";
@@ -51,6 +56,7 @@
 "Changes apply the next time you right-click in Finder." = "تغییرات با راست‌کلیک بعدی در Finder اعمال می‌شود.";
 "Choose the app for Open Terminal Here:" = "انتخاب برنامه برای «باز کردن Terminal در اینجا»:";
 "Choose" = "انتخاب";
+"JPEG quality" = "کیفیت JPEG";
 "New File templates" = "الگوهای فایل جدید";
 "No templates yet." = "هنوز الگویی وجود ندارد.";
 "Remove" = "حذف";

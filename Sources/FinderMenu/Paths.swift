@@ -43,21 +43,22 @@ func appleScriptString(_ s: String) -> String {
     "\"" + s.replacingOccurrences(of: "\\", with: "\\\\").replacingOccurrences(of: "\"", with: "\\\"") + "\""
 }
 
-// Convert to PDF only acts on existing absolute paths to Word documents: no folders or packages.
-func wordDocument(for path: String) -> String? {
+// Conversions only act on existing absolute paths to files they accept: no folders or packages.
+func existingFile(for path: String, matching accepts: (URL) -> Bool) -> String? {
     guard path.hasPrefix("/") else { return nil }
     let path = (path as NSString).standardizingPath
     var isDir: ObjCBool = false
     guard FileManager.default.fileExists(atPath: path, isDirectory: &isDir), !isDir.boolValue,
-          isWordDocument(URL(fileURLWithPath: path)) else { return nil }
+          accepts(URL(fileURLWithPath: path)) else { return nil }
     return path
 }
 
-// Where the PDF goes: next to the document, with a free name (report.docx → report.pdf, report 2.pdf, …).
-func pdfPath(for document: String) -> String {
-    let dir = (document as NSString).deletingLastPathComponent
-    let base = ((document as NSString).lastPathComponent as NSString).deletingPathExtension
-    return (dir as NSString).appendingPathComponent(unusedFilename(base + ".pdf", in: dir))
+// Where a converted copy goes: next to the original, named after it with a free name.
+// siblingPath(for: "/a/photo.png", suffix: " 1600px", ext: "png") → /a/photo 1600px.png, /a/photo 1600px 2.png, …
+func siblingPath(for original: String, suffix: String = "", ext: String) -> String {
+    let dir = (original as NSString).deletingLastPathComponent
+    let base = ((original as NSString).lastPathComponent as NSString).deletingPathExtension
+    return (dir as NSString).appendingPathComponent(unusedFilename(base + suffix + "." + ext, in: dir))
 }
 
 // Has Word save `source` as a PDF at `destination`. A document that was already open stays open,

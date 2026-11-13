@@ -40,6 +40,8 @@ let tests: [(name: String, run: () throws -> Void)] = [
     ("AppleScript strings", testAppleScriptString),
     ("terminal launch", testTerminalLaunch),
     ("Word documents", testWordDocuments),
+    ("image formats", testImageFormats),
+    ("image conversions", testImageConversions),
     ("translations", testTranslations),
 ]
 

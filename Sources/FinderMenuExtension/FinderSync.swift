@@ -49,11 +49,12 @@ class FinderMenuSync: FIFinderSync {
             case "open-with": entry.submenu = Self.openWithMenu()
             case "copy-path": entry.action = #selector(copyPath(_:))
             case "copy-name": entry.action = #selector(copyName(_:))
-            case "to-pdf":
-                // Only for selected Word documents, never for the folder you're in.
+            case "to-pdf", "to-jpg", "resize":
+                // Only when every selected item is a file this converts, never for the folder you're in.
+                let (accepts, action) = Self.conversions[item.id]!
                 let files = selection
-                guard menuKind == .contextualMenuForItems, !files.isEmpty, files.allSatisfy(isWordDocument) else { continue }
-                entry.action = #selector(convertToPDF(_:))
+                guard menuKind == .contextualMenuForItems, !files.isEmpty, files.allSatisfy(accepts) else { continue }
+                entry.action = action
             case "parent-folder":
                 guard let dir = currentFolder, !isDriveRoot(dir) else { continue }
                 entry.action = #selector(goUp(_:))
@@ -225,11 +226,22 @@ class FinderMenuSync: FIFinderSync {
         }
     }
 
-    // Word does the converting, so the helper (outside the sandbox) drives it.
-    @objc func convertToPDF(_ sender: AnyObject?) {
-        let files = selection.filter(isWordDocument)
+    // Which files each conversion takes, and its action.
+    private static let conversions: [String: (accepts: (URL) -> Bool, action: Selector)] = [
+        "to-pdf": (isWordDocument, #selector(convertToPDF(_:))),
+        "to-jpg": (isJPGSource, #selector(convertToJPG(_:))),
+        "resize": (isResizable, #selector(resizeImages(_:))),
+    ]
+
+    // The helper (outside the sandbox) writes the new files: Word converts to PDF, ImageIO does images.
+    @objc func convertToPDF(_ sender: AnyObject?) { sendSelection("topdf", isWordDocument) }
+    @objc func convertToJPG(_ sender: AnyObject?) { sendSelection("tojpg", isJPGSource) }
+    @objc func resizeImages(_ sender: AnyObject?) { sendSelection("resize", isResizable) }
+
+    private func sendSelection(_ action: String, _ accepts: (URL) -> Bool) {
+        let files = selection.filter(accepts)
         guard !files.isEmpty else { return }
-        callHelper("topdf", paths: files.map(\.path))
+        callHelper(action, paths: files.map(\.path))
     }
 
     // One line per selected item, or the folder you're in when nothing is selected.
