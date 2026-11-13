@@ -62,7 +62,14 @@ class FinderMenuSync: FIFinderSync {
             entry.image = Self.symbol(item.symbol)
             menu.addItem(entry)
         }
-        return menu.items.isEmpty ? nil : menu
+        guard !menu.items.isEmpty else { return nil }
+        guard groupsInSubmenu else { return menu }
+        // One item in Finder's menu, with everything else under it.
+        let grouped = NSMenu(title: "")
+        let more = grouped.addItem(withTitle: NSLocalizedString("More Actions", comment: ""), action: nil, keyEquivalent: "")
+        more.image = Self.symbol("ellipsis.circle")
+        more.submenu = menu
+        return grouped
     }
 
     // Other apps' Open and Save dialogs show this menu too, in that app's appearance, which can differ

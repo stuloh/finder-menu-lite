@@ -47,6 +47,13 @@ var showsOnOtherDrives: Bool {
     set { if newValue { settings.removeObject(forKey: "HideOnOtherDrives") } else { settings.set(true, forKey: "HideOnOtherDrives") } }
 }
 
+// Whether the items sit under one "More Actions" submenu instead of side by side in Finder's menu.
+// On unless turned off in settings.
+var groupsInSubmenu: Bool {
+    get { !settings.bool(forKey: "Ungrouped") }
+    set { if newValue { settings.removeObject(forKey: "Ungrouped") } else { settings.set(true, forKey: "Ungrouped") } }
+}
+
 // The settings window posts this when showsOnOtherDrives changes. Finder only asks the extension about
 // drives it already covers, so the extension can't pick up a newly allowed drive on the next right-click.
 let otherDrivesChanged = Notification.Name("local.findermenu.other-drives-changed")

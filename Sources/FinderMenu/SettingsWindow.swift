@@ -48,6 +48,9 @@ final class SettingsWindowController: NSWindowController {
         let drivesBox = NSButton(checkboxWithTitle: NSLocalizedString("Also on external and network drives", comment: ""),
                                  target: self, action: #selector(toggleOtherDrives(_:)))
         drivesBox.state = showsOnOtherDrives ? .on : .off
+        let groupBox = NSButton(checkboxWithTitle: NSLocalizedString("Group items under More Actions", comment: ""),
+                                target: self, action: #selector(toggleGrouping(_:)))
+        groupBox.state = groupsInSubmenu ? .on : .off
         let iconsBox = NSButton(checkboxWithTitle: NSLocalizedString("Show icons", comment: ""), target: self, action: #selector(toggleIcons(_:)))
         iconsBox.state = showsMenuIcons ? .on : .off
 
@@ -71,7 +74,7 @@ final class SettingsWindowController: NSWindowController {
         let terminalLabel = Self.sectionLabel(NSLocalizedString("Open Terminal Here uses", comment: ""))
         let templatesLabel = Self.sectionLabel(NSLocalizedString("New File templates", comment: ""))
 
-        let stack = NSStackView(views: [header, itemsLabel] + checkboxes + [drivesBox, iconsBox, terminalLabel, terminalPopup, templatesLabel, templatesStack, note])
+        let stack = NSStackView(views: [header, itemsLabel] + checkboxes + [groupBox, drivesBox, iconsBox, terminalLabel, terminalPopup, templatesLabel, templatesStack, note])
         stack.orientation = .vertical
         stack.alignment = .leading
         stack.spacing = 8
@@ -193,6 +196,10 @@ final class SettingsWindowController: NSWindowController {
         let item = menuItems[sender.tag]
         setHidden(item.id, sender.state == .off)
         if item.id == "terminal" { terminalPopup.isEnabled = sender.state == .on }
+    }
+
+    @objc private func toggleGrouping(_ sender: NSButton) {
+        groupsInSubmenu = sender.state == .on
     }
 
     // The extension picks its drives when it starts, not on every right-click, so tell it to pick again.

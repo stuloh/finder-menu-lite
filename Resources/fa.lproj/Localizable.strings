@@ -7,6 +7,7 @@
 "Convert to PDF" = "تبدیل به PDF";
 "Go to Parent Folder" = "رفتن به پوشه والد";
 "Other App…" = "برنامه دیگر…";
+"More Actions" = "کارهای بیشتر";
 
 /* New File Dialog */
 "New File" = "فایل جدید";
@@ -42,6 +43,7 @@
 "Version %@" = "نسخه %@";
 "Show in the right-click menu" = "نمایش در منوی راست‌کلیک";
 "Also on external and network drives" = "همچنین در درایوهای خارجی و شبکه";
+"Group items under More Actions" = "گروه‌بندی موارد زیر «کارهای بیشتر»";
 "Show icons" = "نمایش آیکون‌ها";
 "Open Terminal Here uses" = "«باز کردن Terminal در اینجا» استفاده می‌کند از";
 "Automatic (%@)" = "خودکار (%@)";

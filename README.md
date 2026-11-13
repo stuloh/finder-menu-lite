@@ -52,7 +52,7 @@
 
 ## What's in the menu
 
-Right-click **empty space** in any folder, with nothing selected:
+Right-click **empty space** in any folder, with nothing selected. The items sit under one **More&nbsp;Actions&nbsp;▸** item, to keep Finder's menu short; untick **Group items under More Actions** in [settings](#settings) to show them side by side instead.
 
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | Menu item | What it does |
 |:-:|---|---|
@@ -124,6 +124,7 @@ From source, run `git pull && ./install.sh` in the repo folder.
 Open **Finder Menu** from Spotlight or your Applications folder, or run `finder-menu settings`. The settings window lets you:
 
 - choose which items appear in the right-click menu (**Copy Name** is off until you turn it on)
+- choose whether the items sit under one **More Actions** item (they do by default) or side by side in Finder's menu
 - choose whether the menu also appears on external and network drives (it does by default)
 - turn the menu's icons on or off (by default they follow Finder: on in macOS 26 and later, off before)
 - pick the terminal for **Open Terminal Here**. Automatic uses the first one installed, in this order: iTerm2, Ghostty, Warp, WezTerm, kitty, Alacritty, Terminal. **Other App…** lets you pick any app.

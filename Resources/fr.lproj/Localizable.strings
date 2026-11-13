@@ -7,6 +7,7 @@
 "Convert to PDF" = "Convertir en PDF";
 "Go to Parent Folder" = "Aller au dossier parent";
 "Other App…" = "Autre app…";
+"More Actions" = "Autres actions";
 
 /* New File Dialog */
 "New File" = "Nouveau fichier";
@@ -42,6 +43,7 @@
 "Version %@" = "Version %@";
 "Show in the right-click menu" = "Afficher dans le menu contextuel";
 "Also on external and network drives" = "Aussi sur les disques externes et réseau";
+"Group items under More Actions" = "Regrouper les éléments sous « Autres actions »";
 "Show icons" = "Afficher les icônes";
 "Open Terminal Here uses" = "Ouvrir le Terminal ici utilise";
 "Automatic (%@)" = "Automatique (%@)";

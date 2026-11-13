@@ -7,6 +7,7 @@
 "Convert to PDF" = "Перетворити на PDF";
 "Go to Parent Folder" = "Перейти до батьківської папки";
 "Other App…" = "Інша програма…";
+"More Actions" = "Інші дії";
 
 /* New File Dialog */
 "New File" = "Новий файл";
@@ -42,6 +43,7 @@
 "Version %@" = "Версія %@";
 "Show in the right-click menu" = "Показувати в контекстному меню";
 "Also on external and network drives" = "Також на зовнішніх і мережевих дисках";
+"Group items under More Actions" = "Згрупувати пункти в «Інші дії»";
 "Show icons" = "Показувати значки";
 "Open Terminal Here uses" = "Термінал для «Відкрити в терміналі»";
 "Automatic (%@)" = "Автоматично (%@)";
