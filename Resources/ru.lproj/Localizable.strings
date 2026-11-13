@@ -47,6 +47,7 @@
 /* Settings Window */
 "Finder Menu Settings" = "Настройки Finder Menu";
 "Version %@" = "Версия %@";
+"Based on Finder Menu by %@" = "Основано на Finder Menu от %@";
 "Show in the right-click menu" = "Показывать в контекстном меню";
 "Also on external and network drives" = "Также на внешних и сетевых дисках";
 "Group items under More Actions" = "Сгруппировать пункты в «Другие действия»";
@@ -54,6 +55,8 @@
 "Open Terminal Here uses" = "Терминал для «Открыть в терминале»";
 "Automatic (%@)" = "Автоматически (%@)";
 "Changes apply the next time you right-click in Finder." = "Изменения вступят в силу при следующем нажатии правой кнопкой в Finder.";
+"The menu doesn't appear in iCloud Drive, OneDrive, Dropbox or Google Drive folders. macOS doesn't show other apps' Finder menus there." = "Меню не появляется в папках iCloud Drive, OneDrive, Dropbox и Google Drive: macOS не показывает там меню Finder других программ.";
+"To uninstall, run ./uninstall.sh in the folder you installed from, or turn off Finder Menu in System Settings → General → Login Items & Extensions and delete it from ~/Applications." = "Чтобы удалить, запустите ./uninstall.sh в папке, из которой устанавливали, или выключите Finder Menu в Системных настройках → Основные → Объекты входа и расширения и удалите его из ~/Программы.";
 "Choose the app for Open Terminal Here:" = "Выберите программу для «Открыть в терминале»:";
 "Choose" = "Выбрать";
 "JPEG quality" = "Качество JPEG";

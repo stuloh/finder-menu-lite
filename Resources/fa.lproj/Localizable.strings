@@ -47,6 +47,7 @@
 /* Settings Window */
 "Finder Menu Settings" = "تنظیمات Finder Menu";
 "Version %@" = "نسخه %@";
+"Based on Finder Menu by %@" = "بر پایه Finder Menu ساخته %@";
 "Show in the right-click menu" = "نمایش در منوی راست‌کلیک";
 "Also on external and network drives" = "همچنین در درایوهای خارجی و شبکه";
 "Group items under More Actions" = "گروه‌بندی موارد زیر «کارهای بیشتر»";
@@ -54,6 +55,8 @@
 "Open Terminal Here uses" = "«باز کردن Terminal در اینجا» استفاده می‌کند از";
 "Automatic (%@)" = "خودکار (%@)";
 "Changes apply the next time you right-click in Finder." = "تغییرات با راست‌کلیک بعدی در Finder اعمال می‌شود.";
+"The menu doesn't appear in iCloud Drive, OneDrive, Dropbox or Google Drive folders. macOS doesn't show other apps' Finder menus there." = "این منو در پوشه‌های iCloud Drive، OneDrive، Dropbox یا Google Drive نمایش داده نمی‌شود. macOS منوهای Finder برنامه‌های دیگر را آنجا نشان نمی‌دهد.";
+"To uninstall, run ./uninstall.sh in the folder you installed from, or turn off Finder Menu in System Settings → General → Login Items & Extensions and delete it from ~/Applications." = "برای حذف، ./uninstall.sh را در پوشه‌ای که از آن نصب کردید اجرا کنید، یا Finder Menu را در تنظیمات سیستم ← عمومی ← موارد ورود و افزونه‌ها خاموش کنید و آن را از ~/Applications حذف کنید.";
 "Choose the app for Open Terminal Here:" = "انتخاب برنامه برای «باز کردن Terminal در اینجا»:";
 "Choose" = "انتخاب";
 "JPEG quality" = "کیفیت JPEG";

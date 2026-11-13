@@ -115,10 +115,16 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     @objc private func showAbout(_ sender: Any?) {
         let centered = NSMutableParagraphStyle()
         centered.alignment = .center
-        let link = NSAttributedString(string: repositoryName, attributes: [
-            .link: repositoryURL, .font: NSFont.systemFont(ofSize: NSFont.smallSystemFontSize), .paragraphStyle: centered,
+        let small = NSFont.systemFont(ofSize: NSFont.smallSystemFontSize)
+        // This fork, then the project it's based on.
+        let credits = NSMutableAttributedString(string: repositoryName, attributes: [
+            .link: repositoryURL, .font: small, .paragraphStyle: centered,
         ])
-        NSApp.orderFrontStandardAboutPanel(options: [.credits: link])
+        credits.append(NSAttributedString(string: "\n", attributes: [.font: small, .paragraphStyle: centered]))
+        credits.append(NSAttributedString(string: basedOnOriginal, attributes: [
+            .link: originalURL, .font: small, .paragraphStyle: centered,
+        ]))
+        NSApp.orderFrontStandardAboutPanel(options: [.credits: credits])
     }
 
     // A menu action is done. Quit, unless the settings window is open.

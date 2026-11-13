@@ -2,8 +2,12 @@ import Cocoa
 import UniformTypeIdentifiers
 
 // Where to read the docs, report a bug or see the source. Linked from settings and the About panel.
-let repositoryURL = URL(string: "https://github.com/nikgrbn/finder-menu")!
-let repositoryName = "github.com/nikgrbn/finder-menu"
+let repositoryURL = URL(string: "https://github.com/stuloh/finder-menu-lite")!
+let repositoryName = "github.com/stuloh/finder-menu-lite"
+// The project this one is a fork of, credited next to it.
+let originalURL = URL(string: "https://github.com/nikgrbn/finder-menu")!
+let originalAuthor = "nikgrbn"
+var basedOnOriginal: String { String(format: NSLocalizedString("Based on Finder Menu by %@", comment: ""), originalAuthor) }
 
 // Shown when Finder Menu.app is opened directly (Spotlight, Finder, `finder-menu settings`).
 // Every change is saved right away and applies on the next right-click.
@@ -33,7 +37,8 @@ final class SettingsWindowController: NSWindowController {
         version.font = .systemFont(ofSize: NSFont.smallSystemFontSize)
         version.textColor = .secondaryLabelColor
         let link = LinkButton(title: repositoryName, url: repositoryURL)
-        let titles = NSStackView(views: [name, version, link])
+        let original = LinkButton(title: basedOnOriginal, url: originalURL)
+        let titles = NSStackView(views: [name, version, link, original])
         titles.orientation = .vertical
         titles.alignment = .leading
         titles.spacing = 2
@@ -82,13 +87,15 @@ final class SettingsWindowController: NSWindowController {
         let note = NSTextField(labelWithString: NSLocalizedString("Changes apply the next time you right-click in Finder.", comment: ""))
         note.font = .systemFont(ofSize: NSFont.smallSystemFontSize)
         note.textColor = .secondaryLabelColor
+        let cloudNote = Self.smallNote(NSLocalizedString("The menu doesn't appear in iCloud Drive, OneDrive, Dropbox or Google Drive folders. macOS doesn't show other apps' Finder menus there.", comment: ""))
+        let uninstallNote = Self.smallNote(NSLocalizedString("To uninstall, run ./uninstall.sh in the folder you installed from, or turn off Finder Menu in System Settings → General → Login Items & Extensions and delete it from ~/Applications.", comment: ""))
 
         let itemsLabel = Self.sectionLabel(NSLocalizedString("Show in the right-click menu", comment: ""))
         let terminalLabel = Self.sectionLabel(NSLocalizedString("Open Terminal Here uses", comment: ""))
         let templatesLabel = Self.sectionLabel(NSLocalizedString("New File templates", comment: ""))
         let qualityLabel = Self.sectionLabel(NSLocalizedString("JPEG quality", comment: ""))
 
-        let stack = NSStackView(views: [header, itemsLabel] + checkboxes + [groupBox, drivesBox, iconsBox, terminalLabel, terminalPopup, qualityLabel, qualityPopup, templatesLabel, templatesStack, note])
+        let stack = NSStackView(views: [header, itemsLabel] + checkboxes + [groupBox, drivesBox, iconsBox, terminalLabel, terminalPopup, qualityLabel, qualityPopup, templatesLabel, templatesStack, note, cloudNote, uninstallNote])
         stack.orientation = .vertical
         stack.alignment = .leading
         stack.spacing = 8
@@ -117,6 +124,15 @@ final class SettingsWindowController: NSWindowController {
             stack.bottomAnchor.constraint(equalTo: content.bottomAnchor, constant: -20),
         ])
         return content
+    }
+
+    // Small secondary text that wraps, for the notes at the bottom.
+    private static func smallNote(_ text: String) -> NSTextField {
+        let label = NSTextField(wrappingLabelWithString: text)
+        label.font = .systemFont(ofSize: NSFont.smallSystemFontSize)
+        label.textColor = .secondaryLabelColor
+        label.preferredMaxLayoutWidth = 320 // About the width of the rest of the window, so it wraps rather than widening it.
+        return label
     }
 
     private static func sectionLabel(_ text: String) -> NSTextField {

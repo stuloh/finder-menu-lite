@@ -47,6 +47,7 @@
 /* Settings Window */
 "Finder Menu Settings" = "Finder Menu 设置";
 "Version %@" = "版本 %@";
+"Based on Finder Menu by %@" = "基于 %@ 的 Finder Menu";
 "Show in the right-click menu" = "在右键菜单中显示";
 "Also on external and network drives" = "在外置磁盘和网络驱动器上也显示";
 "Group items under More Actions" = "将项目归入“更多操作”";
@@ -54,6 +55,8 @@
 "Open Terminal Here uses" = "“在此处打开终端”使用";
 "Automatic (%@)" = "自动（%@）";
 "Changes apply the next time you right-click in Finder." = "更改将在下次于访达中右键时生效。";
+"The menu doesn't appear in iCloud Drive, OneDrive, Dropbox or Google Drive folders. macOS doesn't show other apps' Finder menus there." = "菜单不会出现在 iCloud 云盘、OneDrive、Dropbox 或 Google 云端硬盘的文件夹中。macOS 不会在那里显示其他应用的“访达”菜单。";
+"To uninstall, run ./uninstall.sh in the folder you installed from, or turn off Finder Menu in System Settings → General → Login Items & Extensions and delete it from ~/Applications." = "要卸载，请在安装时所用的文件夹中运行 ./uninstall.sh，或在“系统设置”→“通用”→“登录项与扩展”中关闭 Finder Menu，然后将其从 ~/应用程序 中删除。";
 "Choose the app for Open Terminal Here:" = "选择“在此处打开终端”使用的应用：";
 "Choose" = "选择";
 "JPEG quality" = "JPEG 质量";
