@@ -1,3 +1,7 @@
 .DS_Store
 build/
 ._*
+# Claude Code
+.claude/
+CLAUDE.md
+CLAUDE.local.md
